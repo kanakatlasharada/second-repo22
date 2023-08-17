@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    stages{
+        stage('git checkout'){
+            steps{
+                echo "Hello welcome to terraform pipeline"
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], 
+                userRemoteConfigs: [[url: 'https://github.com/kanakatlasharada/second-repo22/']])
+            }
+        }
+        stage('terraform provision'){
+            steps{
+                sh """
+                cd Terraform
+                terraform init
+                terraform plan 
+                terraform apply --auto-approve
+                
+                """
+                sh "pwd"
+            }
+        }
+        stage("time to kill?"){
+            steps{
+                input message: 'Destroy terraform resources?'
+
+            }
+        }
+        stage("search and destroy"){
+            steps{
+                sh 'cd Terraform: terraform --auto-approve'
+            }
+        }
+    }
+}
