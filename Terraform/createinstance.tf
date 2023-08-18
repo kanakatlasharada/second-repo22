@@ -3,6 +3,9 @@ resource "aws_instance" "my_instance" {
     instance_type = "t2.micro"
     count = 2
     tags = {
-        Name = "my_instance.${-index}"
+        Name = "my_instance"
     }
+}
+output "public_ip" {
+  value = aws_instance.MyFirstInstnace.public_ip 
 }
